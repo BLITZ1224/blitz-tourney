@@ -2,84 +2,108 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>BLITZ ARENA | SMART BRACKET</title>
-    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Space+Grotesk:wght@500&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLITZ ARENA | PRO TOURNAMENT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <style>
-        :root { --main: #00f2ff; --bg: #08090b; --card: rgba(255,255,255,0.03); }
-        body { background: var(--bg); color: #fff; font-family: 'Space Grotesk', sans-serif; overflow-x: auto; padding: 40px; }
-        .info { display: flex; justify-content: center; gap: 20px; margin-bottom: 50px; }
-        .box { background: var(--card); padding: 12px 20px; border-radius: 8px; border-bottom: 2px solid var(--main); font-size: 14px; }
+        :root { --main: #00f2ff; --bg: #0b0d11; --card: rgba(255,255,255,0.03); --border: rgba(0, 242, 255, 0.2); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: #fff; font-family: 'Space Grotesk', sans-serif; padding: 50px; overflow-x: auto; }
         
-        .bracket { display: flex; gap: 50px; align-items: flex-start; min-width: max-content; }
-        .round { display: flex; flex-direction: column; gap: 20px; justify-content: space-around; }
-        .round-title { font-family: 'Syncopate'; font-size: 10px; color: #555; text-align: center; margin-bottom: 15px; letter-spacing: 2px; }
+        .header { text-align: center; margin-bottom: 60px; }
+        .header h1 { font-family: 'Syncopate'; color: var(--main); letter-spacing: 8px; font-size: 2.5rem; text-shadow: 0 0 15px rgba(0,242,255,0.3); }
+
+        /* 🏆 Bracket Container */
+        .bracket { display: flex; gap: 0; align-items: flex-start; min-width: max-content; }
+        .round { display: flex; flex-direction: column; width: 220px; }
+        .round-title { font-family: 'Syncopate'; font-size: 11px; color: #444; margin-bottom: 30px; text-align: center; letter-spacing: 2px; }
+
+        /* Match Styling */
+        .match-container { display: flex; flex-direction: column; justify-content: space-around; height: 900px; position: relative; }
+        .match { background: var(--card); border: 1px solid var(--border); border-radius: 4px; width: 180px; position: relative; z-index: 2; }
         
-        .match { background: var(--card); border: 1px solid rgba(0,242,255,0.1); border-radius: 8px; width: 170px; position: relative; }
-        .team { padding: 12px; font-weight: bold; color: var(--main); height: 45px; display: flex; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .team { padding: 12px 15px; font-weight: bold; color: #333; height: 45px; display: flex; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
         .team:last-child { border: none; }
-        
-        /* Connector Lines */
-        .match::after { content: ""; position: absolute; right: -50px; top: 50%; width: 50px; height: 1px; background: var(--main); opacity: 0.2; }
+        .team.active { color: var(--main); text-shadow: 0 0 8px rgba(0,242,255,0.4); }
+        .slot-id { font-size: 9px; color: #222; margin-left: auto; font-family: 'Syncopate'; }
+
+        /* 🧬 Connector Lines Logic */
+        .match::after { content: ""; position: absolute; right: -40px; top: 50%; width: 40px; height: 1px; background: var(--border); }
         .round:last-child .match::after { display: none; }
+
+        /* Winner Special Styling */
+        .champ-card { border: 2px solid #ff0055 !important; box-shadow: 0 0 20px rgba(255,0,85,0.2); }
+        .champ-card .team { color: #ff0055 !important; font-family: 'Syncopate'; font-size: 13px; justify-content: center; }
+
+        /* Responsive spacing for rounds */
+        .r-1 { }
+        .r-2 { padding-top: 20px; }
+        .r-3 { padding-top: 60px; }
+        .r-4 { padding-top: 140px; }
     </style>
 </head>
 <body>
 
-    <div class="info">
-        <div class="box">PRIZE: <b id="p">Loading...</b></div>
-        <div class="box">DATE: <b id="d">Loading...</b></div>
-    </div>
+    <div class="header"><h1>BLITZ ARENA</h1></div>
 
-    <div id="bUI" class="bracket"></div>
+    <div class="bracket" id="bUI">
+        </div>
 
     <script>
         const S_ID = "158_hGCRjHiq0a-TTBOLoCg2Uu5WthdoVEe_gXWpQNws";
-
+        
         async function load() {
-            const res = await fetch(`https://docs.google.com/spreadsheets/d/${S_ID}/gviz/tq?tqx=out:json`);
-            const text = await res.text();
-            const json = JSON.parse(text.substr(47).slice(0,-2));
-            const rows = json.table.rows;
-
-            document.getElementById('p').innerText = rows[0]?.c[1]?.v || "TBA";
-            document.getElementById('d').innerText = rows[0]?.c[2]?.v || "TBA";
-
-            // Column A ထဲမှာ "TBA" မဟုတ်တဲ့ တကယ်ရှိတဲ့ အသင်းတွေကိုပဲ ယူမယ်
-            const teams = rows.map(r => r.c[0]?.v).filter(v => v && v !== "TBA");
-            render(teams);
+            try {
+                const res = await fetch(`https://docs.google.com/spreadsheets/d/${S_ID}/gviz/tq?tqx=out:json`);
+                const text = await res.text();
+                const json = JSON.parse(text.substr(47).slice(0,-2));
+                const data = json.table.rows.map(r => r.c[0]?.v || "TBA");
+                render(data);
+            } catch (e) { console.log("Data error"); }
         }
 
-        function render(teams) {
+        function render(data) {
             const ui = document.getElementById('bUI');
             ui.innerHTML = "";
-            if (teams.length === 0) return;
 
-            let currentRoundTeams = teams;
-            let roundCount = 1;
+            const rounds = [
+                { name: "Round 1", count: 8, start: 0 },
+                { name: "Quarter Finals", count: 4, start: 16 },
+                { name: "Semi Finals", count: 2, start: 24 },
+                { name: "Grand Final", count: 1, start: 28 },
+                { name: "Champion", count: 1, start: 30, isChamp: true }
+            ];
 
-            while (currentRoundTeams.length > 0) {
+            rounds.forEach((r, rIdx) => {
                 const roundDiv = document.createElement('div');
-                roundDiv.className = 'round';
-                roundDiv.innerHTML = `<div class="round-title">ROUND ${roundCount}</div>`;
+                roundDiv.className = `round r-${rIdx+1}`;
+                roundDiv.innerHTML = `<div class="round-title">${r.name}</div>`;
+                
+                const group = document.createElement('div');
+                group.className = "match-container";
 
-                for (let i = 0; i < currentRoundTeams.length; i += 2) {
+                for (let i = 0; i < r.count; i++) {
                     const m = document.createElement('div');
-                    m.className = 'match';
-                    m.innerHTML = `
-                        <div class="team">${currentRoundTeams[i]}</div>
-                        <div class="team">${currentRoundTeams[i+1] || "WAITING"}</div>
-                    `;
-                    roundDiv.appendChild(m);
+                    m.className = r.isChamp ? "match champ-card" : "match";
+                    
+                    if (r.isChamp) {
+                        const name = data[r.start] || "TBA";
+                        m.innerHTML = `<div class="team ${name!=="TBA"?'active':''}">🏆 ${name}</div>`;
+                    } else {
+                        const t1 = data[r.start + (i*2)] || "TBA";
+                        const t2 = data[r.start + (i*2) + 1] || "TBA";
+                        m.innerHTML = `
+                            <div class="team ${t1!=="TBA"?'active':''}">${t1} <span class="slot-id">${r.start+(i*2)+1}</span></div>
+                            <div class="team ${t2!=="TBA"?'active':''}">${t2} <span class="slot-id">${r.start+(i*2)+2}</span></div>
+                        `;
+                    }
+                    group.appendChild(m);
                 }
+                roundDiv.appendChild(group);
                 ui.appendChild(roundDiv);
-
-                if (currentRoundTeams.length <= 1) break;
-                // နောက်တစ်ဆင့်အတွက် အကွက်အရေအတွက်ကို တစ်ဝက်လျှော့
-                currentRoundTeams = new Array(Math.ceil(currentRoundTeams.length / 2)).fill("TBA");
-                roundCount++;
-            }
+            });
         }
+
         load(); setInterval(load, 30000);
     </script>
 </body>
