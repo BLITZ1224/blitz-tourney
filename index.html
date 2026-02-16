@@ -3,123 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-    <title>BLITZ ARENA | REGISTRATION</title>
+    <title>BLITZ ARENA | OFFICIAL REGISTRATION</title>
     <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700;900&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root { --main: #00f2ff; --accent: #ff0055; --bg: #08090b; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: var(--bg); color: #fff; font-family: 'Space Grotesk', sans-serif; }
+        
+        body { 
+            background-color: var(--bg); 
+            color: #fff; 
+            font-family: 'Space Grotesk', sans-serif;
+            line-height: 1.6;
+        }
 
-        .hero { height: 35vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border-bottom: 1px solid rgba(0, 242, 255, 0.2); }
-        .hero h1 { font-family: 'Syncopate'; font-size: clamp(1.5rem, 8vw, 3rem); letter-spacing: 5px; color: var(--main); text-shadow: 0 0 20px var(--main); }
+        /* ⚡ Hero Section */
+        .hero {
+            height: 30vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-bottom: 1px solid rgba(0, 242, 255, 0.2);
+            background: linear-gradient(to bottom, rgba(0,0,0,0.5), var(--bg));
+        }
+        .hero h1 { font-family: 'Syncopate'; font-size: clamp(1.5rem, 8vw, 2.5rem); letter-spacing: 5px; color: var(--main); text-shadow: 0 0 20px var(--main); }
+        .hero p { font-size: 10px; letter-spacing: 4px; color: #888; text-transform: uppercase; margin-top: 10px; }
 
-        .container { max-width: 1100px; margin: 30px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-        @media (max-width: 850px) { .container { grid-template-columns: 1fr; } }
+        /* 📦 Layout */
+        .container { max-width: 1100px; margin: 30px auto; padding: 0 20px; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 40px; }
+        @media (max-width: 900px) { .container { grid-template-columns: 1fr; } }
 
-        .section-title { font-family: 'Syncopate'; font-size: 14px; color: var(--main); margin-bottom: 25px; display: flex; align-items: center; gap: 10px; text-transform: uppercase; }
+        .section-title { font-family: 'Syncopate'; font-size: 14px; color: var(--main); margin-bottom: 25px; display: flex; align-items: center; gap: 10px; }
         .section-title::after { content: ""; height: 1px; flex-grow: 1; background: linear-gradient(90deg, var(--main), transparent); }
 
-        .card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 20px; padding: 25px; margin-bottom: 20px; }
+        .card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 25px; margin-bottom: 25px; }
         
-        /* 💰 Dynamic Prize Info */
-        .prize-info { border-left: 4px solid var(--accent); }
-        .prize-info h3 { color: var(--accent); font-size: 20px; margin-bottom: 5px; }
+        /* 📜 Rules Styling */
+        .rule-item { display: flex; gap: 15px; margin-bottom: 20px; }
+        .rule-item i { color: var(--main); font-size: 18px; margin-top: 5px; }
+        .rule-item strong { color: #fff; display: block; font-size: 15px; margin-bottom: 5px; }
+        .rule-item p { color: #ccc; font-size: 13.5px; }
 
-        .rule-item { display: flex; gap: 15px; margin-bottom: 15px; font-size: 14px; line-height: 1.6; color: #ccc; }
-        .rule-item i { color: var(--main); margin-top: 4px; }
-
-        .reg-form { background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); border-radius: 25px; padding: 30px; position: sticky; top: 20px; }
+        /* ✍️ Form Styling */
+        .reg-form { background: rgba(0,0,0,0.4); border: 2px solid rgba(0, 242, 255, 0.1); border-radius: 25px; padding: 30px; position: sticky; top: 20px; }
         .field { margin-bottom: 20px; }
         .field label { display: block; font-size: 11px; font-weight: 700; color: #fff; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 1px; }
         
-        input, select { width: 100%; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; color: #fff; outline: none; }
-        .file-input { border: 2px dashed rgba(255,255,255,0.1); padding: 20px; text-align: center; border-radius: 12px; cursor: pointer; color: var(--main); font-weight: 700; font-size: 13px; }
+        input, select { 
+            width: 100%; padding: 14px; background: rgba(255,255,255,0.05); 
+            border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; 
+            color: #fff; outline: none; transition: 0.3s;
+        }
+        input:focus { border-color: var(--main); background: rgba(0,242,255,0.05); }
 
-        .submit-btn { width: 100%; padding: 18px; background: var(--main); color: #000; border: none; border-radius: 12px; font-weight: 900; font-family: 'Syncopate'; font-size: 13px; cursor: pointer; transition: 0.4s; }
-        .submit-btn:hover { background: #fff; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,242,255,0.3); }
+        .file-input { 
+            border: 2px dashed rgba(255,255,255,0.1); padding: 20px; text-align: center; 
+            border-radius: 12px; cursor: pointer; color: var(--main); font-weight: 700; font-size: 13px;
+        }
 
+        .submit-btn { 
+            width: 100%; padding: 18px; background: var(--main); color: #000; 
+            border: none; border-radius: 12px; font-weight: 900; font-family: 'Syncopate';
+            font-size: 13px; cursor: pointer; transition: 0.4s;
+        }
+        .submit-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,242,255,0.3); background: #fff; }
+
+        .prize-box { border-left: 4px solid var(--accent); }
         #status { margin-top: 20px; text-align: center; }
     </style>
 </head>
 <body>
 
     <section class="hero">
-        <p style="letter-spacing: 4px; color: #888; font-size: 10px; margin-bottom: 10px;">TOURNAMENT HUB</p>
+        <p>Community Tournament</p>
         <h1>BLITZ ARENA</h1>
     </section>
 
     <div class="container">
         <div class="info-side">
-            <div class="section-title">Match Details</div>
-            
-            <div class="card prize-info">
-                <h3>Variable Prize Pool</h3>
-                <p style="font-size: 13px; color: #888;">ဆုကြေးကို ဝင်ကြေးရရှိမှုအပေါ် မူတည်၍ ခွဲဝေချီးမြှင့်သွားမည်ဖြစ်ပါသည်။</p>
-            </div>
-
-            <div class="card">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                    <div>
-                        <span style="font-size: 10px; color: #888;">SCHEDULE</span>
-                        <p style="font-weight: 700; color: var(--main);">TO BE ANNOUNCED</p>
-                    </div>
-                    <div>
-                        <span style="font-size: 10px; color: #888;">ENTRY FEE</span>
-                        <p style="font-weight: 700; color: var(--main);">SEE FB PAGE</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section-title">Rules & Regulations</div>
+            <div class="section-title">Official Rules & Regulations</div>
             <div class="card">
                 <div class="rule-item">
-                    <i class="fas fa-bolt"></i>
-                    <p>အဆဲအဆို လုံးဝမပြုလုပ်ရ။ ပြုလုပ်ပါက တန်းထုတ်ပါမည်။</p>
+                    <i class="fas fa-gavel"></i>
+                    <div>
+                        <strong>General Conduct</strong>
+                        <p>အဆဲအဆို၊ ရိုင်းစိုင်းသော အပြုအမူနှင့် ပုဂ္ဂိုလ်ရေးတိုက်ခိုက်မှုများ လုံးဝမပြုလုပ်ရ။ ပြုလုပ်ပါက ပြိုင်ပွဲမှ ချက်ချင်းထုတ်ပယ်မည်။</p>
+                    </div>
                 </div>
                 <div class="rule-item">
-                    <i class="fas fa-bolt"></i>
-                    <p>သတ်မှတ်ထားသော အချိန်ထက် ၁၀ မိနစ်နောက်ကျပါက ရှုံးနိမ့်ကြောင်း သတ်မှတ်မည်။</p>
+                    <i class="fas fa-clock"></i>
+                    <div>
+                        <strong>Punctuality</strong>
+                        <p>ပွဲချိန်ထက် ၁၀ မိနစ်နောက်ကျပါက Walk-over (ရှုံးနိမ့်ကြောင်း) တိုက်ရိုက်သတ်မှတ်မည်ဖြစ်သည်။</p>
+                    </div>
                 </div>
                 <div class="rule-item">
-                    <i class="fas fa-bolt"></i>
-                    <p>Internet Connection ပြဿနာသည် ကစားသမား၏ တာဝန်သာဖြစ်သည်။</p>
+                    <i class="fas fa-microchip"></i>
+                    <div>
+                        <strong>Fair Play</strong>
+                        <p>Hack, Script နှင့် Third-party App များအသုံးပြုခြင်းကို လုံးဝတားမြစ်သည်။ စစ်ဆေးတွေ့ရှိပါက Permanent Ban ခံရမည်။</p>
+                    </div>
                 </div>
                 <div class="rule-item">
-                    <i class="fas fa-bolt"></i>
-                    <p>Admin ၏ ဆုံးဖြတ်ချက်သည်သာ အတည်ဖြစ်သည်။</p>
+                    <i class="fas fa-wifi"></i>
+                    <div>
+                        <strong>Technical Issues</strong>
+                        <p>Internet Connection နှင့် Device ပြဿနာများသည် ကစားသမား၏ ကိုယ်ပိုင်တာဝန်သာဖြစ်သည်။</p>
+                    </div>
                 </div>
+                <div class="rule-item">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div>
+                        <strong>Admin Decision</strong>
+                        <p>အငြင်းပွားမှုတစ်စုံတစ်ရာ ဖြစ်ပေါ်လာပါက Admin ၏ ဆုံးဖြတ်ချက်သည်သာ အတည်ဖြစ်သည်။</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card prize-box">
+                <h3 style="color: var(--accent); margin-bottom: 10px;">Match Information</h3>
+                <p style="font-size: 13.5px; color: #888;">ဆုကြေးနှင့် ပွဲစဉ်ဇယားကို ဝင်ကြေးရရှိမှုအပေါ် မူတည်၍ Blitz FB Page တွင် ကြေညာပေးသွားမည်ဖြစ်သည်။</p>
             </div>
         </div>
 
         <div class="form-side">
-            <div class="section-title">Registration Form</div>
+            <div class="section-title">Registration</div>
             <div class="reg-form">
-                <form id="tournamentForm">
+                <form id="arenaForm">
                     <div class="field">
                         <label>Team / Player Name</label>
-                        <input type="text" id="playerName" placeholder="Enter your name" required>
+                        <input type="text" id="pName" placeholder="Enter name" required>
                     </div>
                     <div class="field">
                         <label>MLBB User ID</label>
                         <input type="text" id="mlId" placeholder="e.g. 1036720164" required>
                     </div>
                     <div class="field">
-                        <label>Select Match Type</label>
+                        <label>Match Type</label>
                         <select id="matchType">
-                            <option value="1vs1 Solo">Solo (1 vs 1 Match)</option>
-                            <option value="5vs5 Squad">Squad (5 vs 5 Match)</option>
+                            <option value="1vs1 Solo">Solo Match (1 vs 1)</option>
+                            <option value="5vs5 Squad">Squad Match (5 vs 5)</option>
                         </select>
                     </div>
                     <div class="field">
-                        <label>Contact Info (Messenger)</label>
-                        <input type="text" id="contact" placeholder="Facebook Link / Phone" required>
+                        <label>Contact Link</label>
+                        <input type="text" id="contact" placeholder="Messenger Profile Link" required>
                     </div>
                     <div class="field">
-                        <label>Payment Receipt Screenshot</label>
+                        <label>Payment Receipt</label>
                         <input type="file" id="receipt" accept="image/*" hidden required>
                         <div class="file-input" onclick="document.getElementById('receipt').click()" id="fileDisplay">
-                            <i class="fas fa-cloud-upload-alt"></i><br>UPLOAD RECEIPT
+                            <i class="fas fa-upload"></i><br>UPLOAD KPay / Wave Screenshot
                         </div>
                     </div>
                     <button type="submit" class="submit-btn" id="subBtn">SUBMIT ENTRY</button>
@@ -136,34 +172,35 @@
         document.getElementById('receipt').onchange = function() {
             if(this.files[0]) {
                 document.getElementById('fileDisplay').innerHTML = "✅ " + this.files[0].name;
+                document.getElementById('fileDisplay').style.borderColor = "var(--main)";
             }
         };
 
-        document.getElementById('tournamentForm').onsubmit = async (e) => {
+        document.getElementById('arenaForm').onsubmit = async (e) => {
             e.preventDefault();
             const btn = document.getElementById('subBtn');
             const status = document.getElementById('status');
-            const file = document.getElementById('receipt').files[0];
-
+            
             btn.innerText = "SENDING...";
             btn.disabled = true;
 
-            const caption = `🏆 *TOURNAMENT ENTRY* %0A👤 Name: ${document.getElementById('playerName').value} %0A🆔 ID: ${document.getElementById('mlId').value} %0A🎮 Type: ${document.getElementById('matchType').value} %0A📞 Contact: ${document.getElementById('contact').value}`;
+            const caption = `🔥 *NEW TOURNAMENT ENTRY* %0A👤 Name: ${document.getElementById('pName').value} %0A🆔 ID: ${document.getElementById('mlId').value} %0A🎮 Type: ${document.getElementById('matchType').value} %0A📞 Contact: ${document.getElementById('contact').value}`;
 
             const formData = new FormData();
             formData.append('chat_id', CHAT_ID);
-            formData.append('photo', file);
+            formData.append('photo', document.getElementById('receipt').files[0]);
             formData.append('caption', caption.replace(/%0A/g, '\n'));
             formData.append('parse_mode', 'Markdown');
 
             try {
                 const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { method: 'POST', body: formData });
                 if(res.ok) {
-                    status.innerHTML = "<p style='color: var(--main); font-weight:700;'>✅ ENTRY SUBMITTED SUCCESSFULLY!</p>";
-                    document.getElementById('tournamentForm').reset();
+                    status.innerHTML = "<p style='color: var(--main); font-weight:700;'>✅ REGISTRATION COMPLETE!</p>";
+                    document.getElementById('arenaForm').reset();
+                    document.getElementById('fileDisplay').innerHTML = "<i class='fas fa-upload'></i><br>UPLOAD KPay / Wave Screenshot";
                 }
             } catch (err) {
-                status.innerText = "Error. Please try again.";
+                status.innerText = "❌ Connection Error. Try again!";
                 btn.disabled = false;
             }
         };
