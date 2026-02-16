@@ -9,77 +9,75 @@
     <style>
         :root { --main: #00f2ff; --accent: #ff0055; --bg: #08090b; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: var(--bg); color: #fff; font-family: 'Space Grotesk', sans-serif; overflow-x: hidden; }
+        body { background-color: var(--bg); color: #fff; font-family: 'Space Grotesk', sans-serif; }
 
-        /* 📊 Dynamic Stats */
+        /* Header */
+        header { padding: 40px 0; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        h1 { font-family: 'Syncopate'; color: var(--main); letter-spacing: 5px; text-shadow: 0 0 15px var(--main); }
+
+        /* Admin Stats Bar */
         .admin-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; max-width: 1100px; margin: 20px auto; padding: 0 20px; }
-        .stat-item { background: rgba(255,255,255,0.03); padding: 20px; border-radius: 15px; text-align: center; border: 1px solid rgba(0, 242, 255, 0.1); }
-        .stat-item span { font-size: 10px; color: #888; display: block; text-transform: uppercase; margin-bottom: 5px; }
-        .stat-item b { color: var(--main); font-family: 'Syncopate'; font-size: 16px; text-shadow: 0 0 10px var(--main); }
+        .stat-item { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 15px; text-align: center; border: 1px solid rgba(0, 242, 255, 0.1); }
+        .stat-item span { font-size: 10px; color: #888; display: block; text-transform: uppercase; }
+        .stat-item b { color: var(--main); font-family: 'Syncopate'; font-size: 14px; }
 
+        /* Layout */
         .container { max-width: 1100px; margin: 0 auto; padding: 20px; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 40px; }
         @media (max-width: 900px) { .container { grid-template-columns: 1fr; } }
 
-        .section-title { font-family: 'Syncopate'; font-size: 14px; color: var(--main); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title { font-family: 'Syncopate'; font-size: 13px; color: var(--main); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
         .section-title::after { content: ""; height: 1px; flex-grow: 1; background: linear-gradient(90deg, var(--main), transparent); }
 
-        /* 🏆 Bracket Container */
-        .bracket-card { background: #111; border-radius: 20px; height: 500px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); position: relative; }
+        /* Bracket Card */
+        .bracket-card { background: #111; border-radius: 20px; height: 500px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); }
         iframe { width: 100%; height: 100%; border: none; }
 
-        /* ✍️ Form */
-        .reg-card { background: rgba(0,0,0,0.5); border: 2px solid rgba(0, 242, 255, 0.1); border-radius: 25px; padding: 30px; position: sticky; top: 20px; }
+        /* Form */
+        .reg-card { background: rgba(0,0,0,0.5); border: 2px solid rgba(0, 242, 255, 0.1); border-radius: 25px; padding: 30px; }
         .field { margin-bottom: 15px; }
-        label { font-size: 11px; color: #fff; text-transform: uppercase; display: block; margin-bottom: 8px; }
-        input, select { width: 100%; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; color: #fff; outline: none; }
-        .submit-btn { width: 100%; padding: 18px; background: var(--main); color: #000; border: none; border-radius: 12px; font-weight: 900; font-family: 'Syncopate'; cursor: pointer; transition: 0.3s; }
+        label { font-size: 11px; color: #888; text-transform: uppercase; display: block; margin-bottom: 5px; }
+        input, select { width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); border-radius: 10px; color: #fff; outline: none; }
+        .submit-btn { width: 100%; padding: 15px; background: var(--main); color: #000; border: none; border-radius: 10px; font-weight: 900; font-family: 'Syncopate'; cursor: pointer; }
         
-        .rules-card { background: rgba(255,255,255,0.02); padding: 20px; border-radius: 15px; margin-top: 20px; font-size: 13px; line-height: 1.8; color: #ccc; }
+        .rules-list { font-size: 13px; color: #ccc; line-height: 1.8; }
     </style>
 </head>
 <body>
 
-    <header style="padding: 40px 0; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05);">
-        <h1 style="font-family: 'Syncopate'; color: var(--main); letter-spacing: 5px;">BLITZ ARENA</h1>
-    </header>
+    <header><h1>BLITZ ARENA</h1></header>
 
     <div class="admin-stats">
-        <div class="stat-item"><span>Total Prize Pool</span><b id="prizeTxt">Loading...</b></div>
-        <div class="stat-item"><span>Match Starts</span><b id="dateTxt">Loading...</b></div>
+        <div class="stat-item"><span>Prize Pool</span><b id="prizeTxt">Loading...</b></div>
+        <div class="stat-item"><span>Match Date</span><b id="dateTxt">Loading...</b></div>
         <div class="stat-item"><span>Entry Fee</span><b id="feeTxt">Loading...</b></div>
     </div>
 
     <div class="container">
-        <div class="content-side">
+        <div>
             <div class="section-title">Tournament Bracket</div>
             <div class="bracket-card" id="bracketDisplay">
-                <p style="padding: 200px 0; text-align: center; color: #444;">Bracket will be visible once link is added to Sheet.</p>
+                <p style="padding-top: 220px; text-align: center; color: #444;">Connecting to Admin Sheet...</p>
             </div>
 
-            <div class="section-title" style="margin-top: 40px;">Rules & Regulations</div>
-            <div class="rules-card">
-                <p>⚡ အဆဲအဆို လုံးဝမပြုလုပ်ရ။ ပြုလုပ်ပါက တန်းထုတ်ပါမည်။</p>
-                <p>⚡ သတ်မှတ်ထားသော အချိန်ထက် ၁၀ မိနစ်နောက်ကျပါက ရှုံးနိမ့်ကြောင်း သတ်မှတ်မည်။</p>
-                <p>⚡ Internet Connection ပြဿနာသည် ကစားသမား၏ တာဝန်သာဖြစ်သည်။</p>
-                <p>⚡ Admin ၏ ဆုံးဖြတ်ချက်သည်သာ အတည်ဖြစ်သည်။</p>
+            <div class="section-title" style="margin-top: 30px;">Rules</div>
+            <div class="rules-list">
+                <p>• အဆဲအဆို လုံးဝမပြုလုပ်ရ။</p>
+                <p>• ပွဲချိန် ၁၀ မိနစ်နောက်ကျပါက Walk-over သတ်မှတ်မည်။</p>
+                <p>• Admin ၏ ဆုံးဖြတ်ချက်သာ အတည်ဖြစ်သည်။</p>
             </div>
         </div>
 
-        <div class="form-side">
-            <div class="section-title">Registration</div>
+        <div>
+            <div class="section-title">Register Now</div>
             <div class="reg-card">
                 <form id="tgForm">
-                    <div class="field"><label>Team Name</label><input type="text" id="tName" placeholder="Enter Team Name" required></div>
-                    <div class="field"><label>Leader MLBB ID</label><input type="text" id="mlId" placeholder="e.g. 1036720164" required></div>
-                    <div class="field">
-                        <label>Format</label>
-                        <select id="format"><option value="5v5 Single Elimination">5v5 Single Elimination</option></select>
-                    </div>
-                    <div class="field"><label>Contact (FB Link)</label><input type="text" id="fb" placeholder="Messenger Link" required></div>
-                    <div class="field"><label>KPay Receipt</label><input type="file" id="pic" accept="image/*" required></div>
+                    <div class="field"><label>Team Name</label><input type="text" id="tName" required></div>
+                    <div class="field"><label>Leader ID</label><input type="text" id="mlId" required></div>
+                    <div class="field"><label>Messenger Link</label><input type="text" id="fb" required></div>
+                    <div class="field"><label>Payment Screenshot</label><input type="file" id="pic" accept="image/*" required></div>
                     <button type="submit" class="submit-btn" id="btn">SUBMIT ENTRY</button>
                 </form>
-                <div id="msg" style="margin-top: 15px; text-align: center;"></div>
+                <div id="status" style="margin-top: 15px; text-align: center;"></div>
             </div>
         </div>
     </div>
@@ -89,44 +87,40 @@
         const BOT_TOKEN = "8526308993:AAFX1mfH1ixO6XYBdQ_iRw89ksVCe7yN8f8";
         const CHAT_ID = "6724939097";
 
-        // 📊 Fetch Data from Google Sheet
-        async function syncData() {
+        async function syncAdmin() {
             try {
-                const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
-                const res = await fetch(url);
+                const res = await fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`);
                 const text = await res.text();
                 const json = JSON.parse(text.substr(47).slice(0, -2));
-                const data = json.table.rows[0].c;
+                const d = json.table.rows[0].c;
 
-                document.getElementById('dateTxt').innerText = data[0]?.v || "TBA";
-                document.getElementById('feeTxt').innerText = data[1]?.v || "TBA";
-                document.getElementById('prizeTxt').innerText = data[2]?.v || "TBA";
+                document.getElementById('dateTxt').innerText = d[0]?.v || "TBA";
+                document.getElementById('feeTxt').innerText = d[1]?.v || "TBA";
+                document.getElementById('prizeTxt').innerText = d[2]?.v || "TBA";
                 
-                if(data[3]?.v) {
-                    const bracketUrl = data[3].v.includes('challonge.com') ? `${data[3].v}/module` : data[3].v;
-                    document.getElementById('bracketDisplay').innerHTML = `<iframe src="${bracketUrl}"></iframe>`;
+                if(d[3]?.v) {
+                    // Challonge Link ကို module mode နဲ့ ထည့်ပေးတာပါ
+                    const bLink = d[3].v.split('?')[0] + "/module";
+                    document.getElementById('bracketDisplay').innerHTML = `<iframe src="${bLink}"></iframe>`;
                 }
-            } catch (err) { console.error("Sync Error:", err); }
+            } catch (err) { console.error("Sync failed"); }
         }
-        syncData();
+        syncAdmin();
 
-        // 📤 Form Submission to Telegram
         document.getElementById('tgForm').onsubmit = async (e) => {
             e.preventDefault();
             const b = document.getElementById('btn');
             b.innerText = "SENDING..."; b.disabled = true;
 
-            const cap = `🔥 *NEW TOURNAMENT ENTRY*%0A👤 Team: ${document.getElementById('tName').value}%0A🆔 ID: ${document.getElementById('mlId').value}%0A🎮 Mode: ${document.getElementById('format').value}%0A📞 Contact: ${document.getElementById('fb').value}`;
-            
             const fd = new FormData();
             fd.append('chat_id', CHAT_ID);
             fd.append('photo', document.getElementById('pic').files[0]);
-            fd.append('caption', cap.replace(/%0A/g, '\n'));
+            fd.append('caption', `🏆 NEW ENTRY\n👤 Team: ${document.getElementById('tName').value}\n🆔 ID: ${document.getElementById('mlId').value}\n📞 Contact: ${document.getElementById('fb').value}`);
 
             try {
                 const r = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { method: 'POST', body: fd });
                 if(r.ok) {
-                    document.getElementById('msg').innerHTML = "<b style='color:var(--main)'>✅ ENTRY RECEIVED!</b>";
+                    document.getElementById('status').innerHTML = "✅ ENTRY SENT!";
                     document.getElementById('tgForm').reset();
                 }
             } catch (err) { alert("Error!"); }
