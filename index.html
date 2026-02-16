@@ -1,167 +1,224 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>BLITZ | MLBB TOURNAMENT HUB</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&family=Syncopate:wght@700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<style>
-:root{ --c1:#00f2ff; --c2:#ff0055; --bg:#050608; }
-*{margin:0;padding:0;box-sizing:border-box;}
-body{ background: var(--bg); color:#fff; font-family:'Outfit',sans-serif; overflow-x:hidden; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <title>BLITZ ARENA | OFFICIAL TOURNAMENT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700;900&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root { --main: #00f2ff; --accent: #ff0055; --bg: #08090b; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            background-color: var(--bg); 
+            color: #fff; 
+            font-family: 'Space Grotesk', sans-serif;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(0, 242, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255, 0, 85, 0.05) 0%, transparent 50%);
+        }
 
-/* 🎭 Professional Header */
-.header { height: 60vh; background: linear-gradient(to bottom, rgba(5,6,8,0.2), var(--bg)), url('chou-box-bg.jpg') center/cover; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; border-bottom: 2px solid var(--c1); }
-.header h1 { font-family: 'Syncopate'; font-size: 32px; color: var(--c1); text-shadow: 0 0 20px var(--c1); margin-bottom: 10px; }
-.header p { font-size: 14px; letter-spacing: 2px; color: #aaa; text-transform: uppercase; }
+        /* ⚡ Hero Section */
+        .hero {
+            height: 40vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-bottom: 1px solid rgba(0, 242, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
 
-/* 📜 Content Section */
-.main-content { max-width: 800px; margin: -50px auto 50px; padding: 0 20px; position: relative; z-index: 10; }
+        .hero::before {
+            content: ""; position: absolute; width: 200%; height: 200%;
+            background: repeating-linear-gradient(rgba(0,0,0,0) 0, rgba(0,0,0,0) 49%, rgba(0,242,255,0.05) 50%, rgba(0,242,255,0.05) 100%);
+            background-size: 100% 4px; animation: scan 10s linear infinite;
+        }
 
-/* 🛡 Rules & Info Card */
-.info-card { background: rgba(20,22,28,0.95); border: 1px solid rgba(255,255,255,0.1); border-radius: 25px; padding: 25px; margin-bottom: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
-.info-card h3 { color: var(--c1); font-family: 'Syncopate'; font-size: 16px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-.rules-list { list-style: none; }
-.rules-list li { padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 14px; display: flex; gap: 10px; line-height: 1.5; color: #ddd; }
-.rules-list li i { color: var(--c2); margin-top: 3px; }
+        @keyframes scan { from { transform: translateY(0); } to { transform: translateY(-50%); } }
 
-/* 💎 Prize & Date */
-.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 30px; }
-.stat-item { background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)); padding: 20px; border-radius: 20px; border-left: 4px solid var(--c1); text-align: center; }
-.stat-item span { display: block; font-size: 11px; color: #888; text-transform: uppercase; margin-bottom: 5px; }
-.stat-item b { font-size: 18px; color: var(--c1); font-family: 'Syncopate'; }
+        .hero h1 { font-family: 'Syncopate'; font-size: clamp(1.5rem, 8vw, 3rem); letter-spacing: 5px; color: var(--main); text-shadow: 0 0 20px var(--main); }
+        .hero p { font-size: 12px; letter-spacing: 4px; margin-top: 10px; color: #888; text-transform: uppercase; }
 
-/* 📝 Form Style */
-.form-section { background: rgba(20,22,28,0.95); border: 2px solid var(--c1); border-radius: 30px; padding: 30px; position: relative; overflow: hidden; }
-.form-section::after { content: "REGISTRATION"; position: absolute; bottom: -20px; right: -10px; font-family: 'Syncopate'; font-size: 40px; color: var(--c1); opacity: 0.05; font-weight: 900; }
+        /* 📦 Main Grid Layout */
+        .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
 
-.input-group { margin-bottom: 20px; }
-label { display: block; font-size: 12px; margin-bottom: 8px; color: #fff; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
-input, select { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); background: #000; color: #fff; outline: none; transition: 0.3s; }
-input:focus { border-color: var(--c1); box-shadow: 0 0 10px rgba(0,242,255,0.2); }
+        @media (max-width: 850px) { .container { grid-template-columns: 1fr; } }
 
-.file-box { border: 2px dashed rgba(255,255,255,0.2); padding: 20px; border-radius: 12px; text-align: center; cursor: pointer; color: #00f2ff; font-weight: 700; }
+        /* 📜 Info Section */
+        .section-title { font-family: 'Syncopate'; font-size: 14px; color: var(--main); margin-bottom: 25px; display: flex; align-items: center; gap: 10px; }
+        .section-title::after { content: ""; height: 1px; flex-grow: 1; background: linear-gradient(90deg, var(--main), transparent); }
 
-button { width: 100%; padding: 20px; border-radius: 15px; border: none; background: linear-gradient(90deg, var(--c1), var(--c2)); color: #fff; font-weight: 900; font-size: 16px; cursor: pointer; transition: 0.4s; margin-top: 10px; }
-button:hover { transform: scale(1.02); box-shadow: 0 0 20px rgba(255,0,85,0.4); }
+        .card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 20px; padding: 25px; margin-bottom: 20px; transition: 0.3s; }
+        .card:hover { border-color: var(--main); background: rgba(0,242,255,0.02); }
 
-#status { margin-top: 20px; text-align: center; }
-</style>
+        .prize-pool { text-align: center; border: 1px solid var(--accent); position: relative; }
+        .prize-pool h2 { font-size: 32px; color: var(--accent); font-family: 'Syncopate'; margin: 10px 0; }
+
+        .rule-item { display: flex; gap: 15px; margin-bottom: 15px; font-size: 14px; line-height: 1.6; color: #ccc; }
+        .rule-item i { color: var(--main); margin-top: 4px; }
+
+        /* ✍️ Form Section */
+        .reg-form { background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); border-radius: 25px; padding: 30px; position: sticky; top: 20px; }
+        
+        .field { margin-bottom: 20px; }
+        .field label { display: block; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 1px; }
+        
+        input, select { 
+            width: 100%; padding: 14px; background: rgba(255,255,255,0.05); 
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; 
+            color: #fff; outline: none; transition: 0.3s; font-family: inherit;
+        }
+
+        input:focus { border-color: var(--main); background: rgba(0,242,255,0.05); box-shadow: 0 0 15px rgba(0,242,255,0.1); }
+
+        .file-input { 
+            border: 2px dashed rgba(255,255,255,0.1); padding: 20px; text-align: center; 
+            border-radius: 12px; cursor: pointer; color: var(--main); font-weight: 700; font-size: 13px;
+        }
+
+        .submit-btn { 
+            width: 100%; padding: 18px; background: var(--main); color: #000; 
+            border: none; border-radius: 12px; font-weight: 900; font-family: 'Syncopate';
+            font-size: 13px; cursor: pointer; transition: 0.4s; margin-top: 10px;
+        }
+
+        .submit-btn:hover { background: #fff; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,242,255,0.3); }
+
+        #status { margin-top: 20px; text-align: center; }
+    </style>
 </head>
 <body>
 
-<div class="header">
-    <p>Tournament Organizer</p>
-    <h1>BLITZ ARENA</h1>
-    <div style="background: var(--c2); padding: 5px 15px; border-radius: 20px; font-weight: 900; font-size: 12px;">LIVE TOURNAMENT</div>
-</div>
+    <section class="hero">
+        <p>Community League</p>
+        <h1>BLITZ ARENA</h1>
+        <p style="color: var(--main);">Season 01</p>
+    </section>
 
-<div class="main-content">
-    
-    <div class="stats-grid">
-        <div class="stat-item">
-            <span>PRIZE POOL</span>
-            <b>50,000 KS</b>
+    <div class="container">
+        <div class="info-side">
+            <div class="section-title">TOURNAMENT INFO</div>
+            
+            <div class="card prize-pool">
+                <span>TOTAL PRIZE POOL</span>
+                <h2>50,000 MMK</h2>
+                <p style="font-size: 11px; color: #888;">Winner takes all + Bragging Rights</p>
+            </div>
+
+            <div class="card">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div>
+                        <span style="font-size: 10px; color: #888;">REGISTRATION ENDS</span>
+                        <p style="font-weight: 700; color: var(--main);">FEB 24, 2026</p>
+                    </div>
+                    <div>
+                        <span style="font-size: 10px; color: #888;">MATCH START</span>
+                        <p style="font-weight: 700; color: var(--main);">FEB 25, 2026</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title">RULES & REGULATIONS</div>
+            <div class="card">
+                <div class="rule-item">
+                    <i class="fas fa-bolt"></i>
+                    <p>အဆဲအဆို လုံးဝမပြုလုပ်ရ။ ပြုလုပ်ပါက တန်းထုတ်ပါမည်။</p>
+                </div>
+                <div class="rule-item">
+                    <i class="fas fa-bolt"></i>
+                    <p>သတ်မှတ်ထားသော အချိန်ထက် ၁၀ မိနစ်နောက်ကျပါက ရှုံးနိမ့်ကြောင်း သတ်မှတ်မည်။</p>
+                </div>
+                <div class="rule-item">
+                    <i class="fas fa-bolt"></i>
+                    <p>Internet Connection ပြဿနာသည် ကစားသမား၏ တာဝန်သာဖြစ်သည်။</p>
+                </div>
+                <div class="rule-item">
+                    <i class="fas fa-bolt"></i>
+                    <p>Admin ၏ ဆုံးဖြတ်ချက်သည်သာ အတည်ဖြစ်သည်။</p>
+                </div>
+            </div>
         </div>
-        <div class="stat-item">
-            <span>MATCH DATE</span>
-            <b>FEB 25</b>
+
+        <div class="form-side">
+            <div class="section-title">PLAYER REGISTRATION</div>
+            <div class="reg-form">
+                <form id="tournamentForm">
+                    <div class="field">
+                        <label>In-game Name</label>
+                        <input type="text" id="playerName" placeholder="Enter your IGN" required>
+                    </div>
+                    <div class="field">
+                        <label>MLBB User ID</label>
+                        <input type="text" id="mlId" placeholder="e.g. 1036720164" required>
+                    </div>
+                    <div class="field">
+                        <label>Match Type</label>
+                        <select id="matchType">
+                            <option value="1vs1 Solo">Solo (1 vs 1)</option>
+                            <option value="5vs5 Squad">Squad (5 vs 5)</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Contact Link (Messenger)</label>
+                        <input type="text" id="contact" placeholder="Facebook Profile Link" required>
+                    </div>
+                    <div class="field">
+                        <label>Payment Receipt (KPay / Wave)</label>
+                        <input type="file" id="receipt" accept="image/*" hidden required>
+                        <div class="file-input" onclick="document.getElementById('receipt').click()" id="fileDisplay">
+                            <i class="fas fa-cloud-upload-alt"></i><br>CLICK TO UPLOAD RECEIPT
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-btn" id="subBtn">JOIN ARENA</button>
+                </form>
+                <div id="status"></div>
+            </div>
         </div>
     </div>
 
-    <div class="info-card">
-        <h3><i class="fas fa-gavel"></i> TOURNAMENT RULES</h3>
-        <ul class="rules-list">
-            <li><i class="fas fa-check-circle"></i> ကစားသမားများသည် သတ်မှတ်ထားသော ID ဖြင့်သာ ဆော့ရမည်။</li>
-            <li><i class="fas fa-check-circle"></i> Chat တွင် ဆဲဆိုခြင်း၊ ရိုင်းစိုင်းခြင်း လုံးဝ (လုံးဝ) မပြုလုပ်ရ။</li>
-            <li><i class="fas fa-check-circle"></i> Game စတင်ရန် ၁၅ မိနစ်အလိုတွင် အဆင်သင့်ရှိနေရမည်။</li>
-            <li><i class="fas fa-check-circle"></i> Hack သုံးခြင်း သို့မဟုတ် Cheat သုံးခြင်း တွေ့ရှိပါက တိုက်ရိုက် Ban မည်။</li>
-            <li><i class="fas fa-check-circle"></i> အငြင်းပွားမှုတစ်စုံတစ်ရာရှိပါက Admin ၏ ဆုံးဖြတ်ချက်သာ အတည်ဖြစ်သည်။</li>
-        </ul>
-    </div>
+    <script>
+        const BOT_TOKEN = "8526308993:AAFX1mfH1ixO6XYBdQ_iRw89ksVCe7yN8f8";
+        const CHAT_ID = "6724939097";
 
-    <div class="form-section">
-        <h3 style="color: var(--c1); margin-bottom: 25px; font-family: 'Syncopate';">PLAYER INFO</h3>
-        <form id="regForm">
-            <div class="input-group">
-                <label>Name (In-game Name)</label>
-                <input type="text" id="pName" placeholder="Enter your name" required>
-            </div>
-            <div class="input-group">
-                <label>MLBB ID</label>
-                <input type="text" id="mlId" placeholder="Example: 12345678" required>
-            </div>
-            <div class="input-group">
-                <label>Match Type</label>
-                <select id="matchType" style="border: 1px solid var(--c1); background: rgba(0,242,255,0.05); font-weight: 700;">
-                    <option value="1vs1 Solo">🔥 1 vs 1 (Solo)</option>
-                    <option value="5vs5 Squad">⚔️ 5 vs 5 (Squad)</option>
-                </select>
-            </div>
-            <div class="input-group">
-                <label>Facebook / Messenger Link</label>
-                <input type="text" id="contact" placeholder="For Admin to contact you" required>
-            </div>
-            <div class="input-group">
-                <label>Payment Receipt (KPay / Wave)</label>
-                <input type="file" id="screenshot" accept="image/*" hidden required>
-                <label for="screenshot" class="file-box" id="fileTitle">📁 Click to Upload Receipt</label>
-            </div>
-            <button type="submit" id="submitBtn">JOIN TOURNAMENT</button>
-        </form>
-        <div id="status"></div>
-    </div>
-</div>
+        document.getElementById('receipt').onchange = function() {
+            if(this.files[0]) {
+                document.getElementById('fileDisplay').innerHTML = "✅ " + this.files[0].name;
+                document.getElementById('fileDisplay').style.borderColor = "var(--main)";
+            }
+        };
 
-<script>
-const BOT_TOKEN = "8526308993:AAFX1mfH1ixO6XYBdQ_iRw89ksVCe7yN8f8";
-const CHAT_ID = "6724939097";
+        document.getElementById('tournamentForm').onsubmit = async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('subBtn');
+            const status = document.getElementById('status');
+            const file = document.getElementById('receipt').files[0];
 
-document.getElementById('screenshot').onchange = function() {
-    if(this.files[0]) {
-        document.getElementById('fileTitle').innerText = "✅ " + this.files[0].name;
-        document.getElementById('fileTitle').style.color = "#00ff88";
-        document.getElementById('fileTitle').style.borderColor = "#00ff88";
-    }
-};
+            btn.innerText = "PROCESSING...";
+            btn.disabled = true;
 
-document.getElementById('regForm').onsubmit = async (e) => {
-    e.preventDefault();
-    const btn = document.getElementById('submitBtn');
-    const status = document.getElementById('status');
-    const fileInput = document.getElementById('screenshot');
-    
-    btn.innerText = "REGISTERING...";
-    btn.disabled = true;
+            const caption = `🏆 *TOURNAMENT JOINED* %0A👤 Name: ${document.getElementById('playerName').value} %0A🆔 ID: ${document.getElementById('mlId').value} %0A🎮 Type: ${document.getElementById('matchType').value} %0A📞 Contact: ${document.getElementById('contact').value}`;
 
-    const name = document.getElementById('pName').value;
-    const id = document.getElementById('mlId').value;
-    const type = document.getElementById('matchType').value;
-    const contact = document.getElementById('contact').value;
+            const formData = new FormData();
+            formData.append('chat_id', CHAT_ID);
+            formData.append('photo', file);
+            formData.append('caption', caption.replace(/%0A/g, '\n'));
+            formData.append('parse_mode', 'Markdown');
 
-    const caption = `🏆 *NEW TOURNAMENT ENTRY*%0A👤 *Player:* ${name}%0A🆔 *Game ID:* ${id}%0A🎮 *Type:* ${type}%0A📞 *Contact:* ${contact}`;
-
-    const formData = new FormData();
-    formData.append('chat_id', CHAT_ID);
-    formData.append('photo', fileInput.files[0]);
-    formData.append('caption', caption.replace(/%0A/g, '\n'));
-    formData.append('parse_mode', 'Markdown');
-
-    try {
-        const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { method: 'POST', body: formData });
-        if(response.ok) {
-            status.innerHTML = `<div style="padding:20px; background:rgba(0,255,136,0.1); border:2px solid #00ff88; border-radius:20px;">
-                <h3 style="color:#00ff88;">REGISTRATION SUCCESS!</h3>
-                <p style="font-size:12px; margin-top:5px;">Admin will contact you soon.</p>
-            </div>`;
-            document.getElementById('regForm').style.display = "none";
-        }
-    } catch (err) {
-        status.innerText = "❌ Error! Try again.";
-        btn.disabled = false;
-    }
-};
-</script>
+            try {
+                const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { method: 'POST', body: formData });
+                if(res.ok) {
+                    status.innerHTML = "<p style='color: var(--main); font-weight:700;'>SUCCESS! WELCOME TO THE ARENA.</p>";
+                    document.getElementById('tournamentForm').style.display = "none";
+                }
+            } catch (err) {
+                status.innerText = "Error. Please try again.";
+                btn.disabled = false;
+            }
+        };
+    </script>
 </body>
 </html>
