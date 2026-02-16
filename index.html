@@ -3,107 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BLITZ ARENA | PRO TOURNAMENT</title>
+    <title>BLITZ ARENA | DYNAMIC SYSTEM</title>
     <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root { --main: #00f2ff; --bg: #0b0d11; --card: rgba(255,255,255,0.03); --border: rgba(0, 242, 255, 0.2); }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: var(--bg); color: #fff; font-family: 'Space Grotesk', sans-serif; padding: 50px; overflow-x: auto; }
-        
-        .header { text-align: center; margin-bottom: 60px; }
-        .header h1 { font-family: 'Syncopate'; color: var(--main); letter-spacing: 8px; font-size: 2.5rem; text-shadow: 0 0 15px rgba(0,242,255,0.3); }
-
-        /* 🏆 Bracket Container */
-        .bracket { display: flex; gap: 0; align-items: flex-start; min-width: max-content; }
-        .round { display: flex; flex-direction: column; width: 220px; }
-        .round-title { font-family: 'Syncopate'; font-size: 11px; color: #444; margin-bottom: 30px; text-align: center; letter-spacing: 2px; }
-
-        /* Match Styling */
-        .match-container { display: flex; flex-direction: column; justify-content: space-around; height: 900px; position: relative; }
-        .match { background: var(--card); border: 1px solid var(--border); border-radius: 4px; width: 180px; position: relative; z-index: 2; }
-        
-        .team { padding: 12px 15px; font-weight: bold; color: #333; height: 45px; display: flex; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
+        .header { text-align: center; margin-bottom: 60px; font-family: 'Syncopate'; color: var(--main); letter-spacing: 5px; }
+        .bracket { display: flex; gap: 40px; align-items: flex-start; min-width: max-content; }
+        .round { display: flex; flex-direction: column; width: 200px; }
+        .round-title { font-family: 'Syncopate'; font-size: 10px; color: #444; margin-bottom: 20px; text-align: center; }
+        .match-container { display: flex; flex-direction: column; justify-content: space-around; min-height: 800px; }
+        .match { background: var(--card); border: 1px solid var(--border); border-radius: 4px; width: 180px; margin-bottom: 20px; }
+        .team { padding: 12px; font-weight: bold; color: var(--main); height: 45px; display: flex; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .team:last-child { border: none; }
-        .team.active { color: var(--main); text-shadow: 0 0 8px rgba(0,242,255,0.4); }
-        .slot-id { font-size: 9px; color: #222; margin-left: auto; font-family: 'Syncopate'; }
-
-        /* 🧬 Connector Lines Logic */
-        .match::after { content: ""; position: absolute; right: -40px; top: 50%; width: 40px; height: 1px; background: var(--border); }
-        .round:last-child .match::after { display: none; }
-
-        /* Winner Special Styling */
-        .champ-card { border: 2px solid #ff0055 !important; box-shadow: 0 0 20px rgba(255,0,85,0.2); }
-        .champ-card .team { color: #ff0055 !important; font-family: 'Syncopate'; font-size: 13px; justify-content: center; }
-
-        /* Responsive spacing for rounds */
-        .r-1 { }
-        .r-2 { padding-top: 20px; }
-        .r-3 { padding-top: 60px; }
-        .r-4 { padding-top: 140px; }
+        .champ-card { border: 2px solid #ff0055; box-shadow: 0 0 15px rgba(255,0,85,0.2); }
+        .champ-card .team { color: #ff0055 !important; justify-content: center; font-family: 'Syncopate'; }
     </style>
 </head>
 <body>
-
     <div class="header"><h1>BLITZ ARENA</h1></div>
-
-    <div class="bracket" id="bUI">
-        </div>
+    <div class="bracket" id="bUI"></div>
 
     <script>
         const S_ID = "158_hGCRjHiq0a-TTBOLoCg2Uu5WthdoVEe_gXWpQNws";
-        
         async function load() {
-            try {
-                const res = await fetch(`https://docs.google.com/spreadsheets/d/${S_ID}/gviz/tq?tqx=out:json`);
-                const text = await res.text();
-                const json = JSON.parse(text.substr(47).slice(0,-2));
-                const data = json.table.rows.map(r => r.c[0]?.v || "TBA");
-                render(data);
-            } catch (e) { console.log("Data error"); }
+            const res = await fetch(`https://docs.google.com/spreadsheets/d/${S_ID}/gviz/tq?tqx=out:json`);
+            const text = await res.text();
+            const json = JSON.parse(text.substr(47).slice(0,-2));
+            const data = json.table.rows.map(r => r.c[0]?.v || "");
+            render(data);
         }
 
         function render(data) {
             const ui = document.getElementById('bUI');
             ui.innerHTML = "";
-
             const rounds = [
-                { name: "Round 1", count: 8, start: 0 },
-                { name: "Quarter Finals", count: 4, start: 16 },
-                { name: "Semi Finals", count: 2, start: 24 },
-                { name: "Grand Final", count: 1, start: 28 },
-                { name: "Champion", count: 1, start: 30, isChamp: true }
+                { name: "Round 1", start: 0, count: 8 },
+                { name: "Quarter Finals", start: 16, count: 4 },
+                { name: "Semi Finals", start: 24, count: 2 },
+                { name: "Grand Final", start: 28, count: 1 },
+                { name: "Champion", start: 30, count: 1, isChamp: true }
             ];
 
-            rounds.forEach((r, rIdx) => {
-                const roundDiv = document.createElement('div');
-                roundDiv.className = `round r-${rIdx+1}`;
-                roundDiv.innerHTML = `<div class="round-title">${r.name}</div>`;
-                
-                const group = document.createElement('div');
-                group.className = "match-container";
+            rounds.forEach(r => {
+                const roundData = data.slice(r.start, r.start + (r.isChamp ? 1 : r.count * 2));
+                // ဒီ Round ထဲမှာ နာမည် အနည်းဆုံး တစ်ခုရှိမှ Round တစ်ခုလုံးကို ပေါ်စေမယ်
+                if (roundData.some(name => name !== "" && name !== "TBA")) {
+                    const roundDiv = document.createElement('div');
+                    roundDiv.className = "round";
+                    roundDiv.innerHTML = `<div class="round-title">${r.name}</div><div class="match-container" id="rc-${r.start}"></div>`;
+                    ui.appendChild(roundDiv);
 
-                for (let i = 0; i < r.count; i++) {
-                    const m = document.createElement('div');
-                    m.className = r.isChamp ? "match champ-card" : "match";
-                    
+                    const container = document.getElementById(`rc-${r.start}`);
                     if (r.isChamp) {
-                        const name = data[r.start] || "TBA";
-                        m.innerHTML = `<div class="team ${name!=="TBA"?'active':''}">🏆 ${name}</div>`;
+                        const m = document.createElement('div');
+                        m.className = "match champ-card";
+                        m.innerHTML = `<div class="team">🏆 ${data[r.start]}</div>`;
+                        container.appendChild(m);
                     } else {
-                        const t1 = data[r.start + (i*2)] || "TBA";
-                        const t2 = data[r.start + (i*2) + 1] || "TBA";
-                        m.innerHTML = `
-                            <div class="team ${t1!=="TBA"?'active':''}">${t1} <span class="slot-id">${r.start+(i*2)+1}</span></div>
-                            <div class="team ${t2!=="TBA"?'active':''}">${t2} <span class="slot-id">${r.start+(i*2)+2}</span></div>
-                        `;
+                        for (let i = 0; i < r.count; i++) {
+                            const t1 = data[r.start + (i * 2)];
+                            const t2 = data[r.start + (i * 2) + 1];
+                            // Match တစ်ခုမှာ အသင်း တစ်သင်းရှိတာနဲ့ အဲ့ဒီ Match ကွက်ကို ပေါ်စေမယ်
+                            if (t1 || t2) {
+                                const m = document.createElement('div');
+                                m.className = "match";
+                                m.innerHTML = `<div class="team">${t1 || "WAITING"}</div><div class="team">${t2 || "WAITING"}</div>`;
+                                container.appendChild(m);
+                            }
+                        }
                     }
-                    group.appendChild(m);
                 }
-                roundDiv.appendChild(group);
-                ui.appendChild(roundDiv);
             });
         }
-
         load(); setInterval(load, 30000);
     </script>
 </body>
